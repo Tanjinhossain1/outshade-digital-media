@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
     const navItem  = <>
     <li><Link to='/home'>Home</Link></li>
+    <li><Link to='/login'>Login</Link></li>
     </>
     return (
         <div class="navbar bg-base-100">
