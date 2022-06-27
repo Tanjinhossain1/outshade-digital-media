@@ -12,18 +12,18 @@ const Home = () => {
     const [categoryOn, setCategoryOn] = useState(false);
     const [deleteCategory, setDeleteCategory] = useState(false);
     const { isLoading, data: products, refetch } = useQuery('allProducts', () =>
-        fetch('http://localhost:5000/AllProducts').then(res =>
+        fetch('https://infinite-springs-80402.herokuapp.com/AllProducts').then(res =>
             res.json()
         )
     )
    
-    const { data: categorys } = useQuery('category', () =>
-        fetch('http://localhost:5000/category').then(res =>
+    const { data: categorys,isLoading: reload } = useQuery('category', () =>
+        fetch('https://infinite-springs-80402.herokuapp.com/category').then(res =>
             res.json()
         )
     )
     
-   
+  
     const createProducts = (event) => {
         event.preventDefault()
         const name = event.target.name.value;
@@ -34,7 +34,7 @@ const Home = () => {
         } else {
             setSelectError('')
             const foodDetail = { name, price, category };
-            fetch('http://localhost:5000/createFood', {
+            fetch('https://infinite-springs-80402.herokuapp.com/createFood', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -57,12 +57,15 @@ const Home = () => {
     if (isLoading) {
         return <div className='flex justify-center mt-32'><button class="btn btn-square loading"></button></div>
     }
+    if (reload) {
+        return <div className='flex justify-center mt-32'><button class="btn btn-square loading"></button></div>
+    }
     const sortedCategory = products.filter(c => c.category.includes(categorySorted))
   
     const createCategory = (event) => {
         event.preventDefault()
         const category = event.target.category.value;
-        fetch('http://localhost:5000/createCategory', {
+        fetch('https://infinite-springs-80402.herokuapp.com/createCategory', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -79,7 +82,7 @@ const Home = () => {
    const deleteCategories = (event) =>{
     event.preventDefault()
     const deleteCategory = event.target.deleteCategory.value;
-    fetch('http://localhost:5000/deleteCategory', {
+    fetch('https://infinite-springs-80402.herokuapp.com/deleteCategory', {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json'
@@ -90,7 +93,7 @@ const Home = () => {
         .then(data => {
             refetch()
             console.log(data)
-            fetch('http://localhost:5000/categoryProduct',{
+            fetch('https://infinite-springs-80402.herokuapp.com/categoryProduct',{
                 method:'DELETE',
                 headers: {
                     'content-type': 'application/json'
